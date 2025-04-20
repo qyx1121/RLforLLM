@@ -8,16 +8,16 @@
 ### 1.2 核心思想
 DPO 通过以下步骤实现直接优化：
 1. **偏好数据建模**：假设人类偏好遵循 **Bradley-Terry 模型**，即对两个回答$(y_w, y_l)$，偏好概率可表示为：
-$P(y_w \succ y_l) = \frac{\exp(R(y_w))}{\exp(R(y_w)) + \exp(R(y_l))}$
+$$P(y_w \succ y_l) = \frac{\exp(R(y_w))}{\exp(R(y_w)) + \exp(R(y_l))}$$
 2. **奖励隐式参数化**：将奖励函数$R(y)$ 表示为策略$\pi_\theta(y|x)$ 的函数，即：
-   $
+   $$
    R(y) = \beta \log \frac{\pi_\theta(y|x)}{\pi_{\text{ref}}(y|x)} + \text{常数}
-   $
+   $$
    其中$ \pi_{\text{ref}}$ 是参考策略（如初始模型），$ \beta$ 是温度系数。
 3. **目标函数**：直接最大化偏好数据的对数似然：
-   $
+   $$
    \mathcal{L}_{\text{DPO}} = -\mathbb{E}_{(x,y_w,y_l)} \left[ \log \sigma\left( \beta \log \frac{\pi_\theta(y_w|x)}{\pi_{\text{ref}}(y_w|x)} - \beta \log \frac{\pi_\theta(y_l|x)}{\pi_{\text{ref}}(y_l|x)} \right) \right]
-   $
+   $$
    其中$ \sigma$ 是 Sigmoid 函数。
 
 ### 1.3 关键特点

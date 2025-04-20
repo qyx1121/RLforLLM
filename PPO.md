@@ -8,9 +8,9 @@ PPO（近端策略优化）是一种强化学习中常用的策略梯度方法�
 
 1. **剪切目标函数（Clipped Objective）**：
    PPO 不直接最大化期望回报，而是通过引入剪切机制来限制策略更新幅度：
-   $
+   $$
    L^{CLIP}(\theta) = \mathbb{E}_t \left[ \min\left( r_t(\theta)\hat{A}_t, \text{clip}(r_t(\theta), 1 - \epsilon, 1 + \epsilon)\hat{A}_t \right) \right]
-   $
+   $$
    其中：
    - $r_t(\theta) = \frac{\pi_\theta(a_t | s_t)}{\pi_{\theta_{\text{old}}}(a_t | s_t)}$ 是新旧策略的概率比；
    - $\hat{A}_t$ 是优势函数（可由 GAE 估算）；
@@ -21,14 +21,14 @@ PPO（近端策略优化）是一种强化学习中常用的策略梯度方法�
 
 3. **值函数防止过度优化**：
     PPO为了防止过度优化，保证新策略和源策略不会差异太大，在奖励函数中添加了一个KL惩罚：
-    $r_t = t_\phi(q, o_{\leq t}) - \beta \text{log}\frac{\pi_{\theta}(o_t|q,o_{<t})}{\pi_{ref}(o_t|q,o_{<t})}$
+    $$r_t = t_\phi(q, o_{\leq t}) - \beta \text{log}\frac{\pi_{\theta}(o_t|q,o_{<t})}{\pi_{ref}(o_t|q,o_{<t})}$$
 
 
 **具体的优化原理：**
 
 当 $\hat{A}_t$ 为正时，表示当前行为 $a_t$ 相对于旧策略是“有利”的，我们希望提高该行为的概率，因此期望优化参数 $\theta$ 使得 $r_t(\theta) = \frac{\pi_\theta(a_t | s_t)}{\pi_{\theta_{\text{old}}}(a_t | s_t)}$ 越大越好。但由于引入了剪切（clip）操作，为了防止策略更新过大，$r_t(\theta)$ 的值被限制在 $[1 - \epsilon, 1 + \epsilon]$ 之间，因此实际目标最多只会增加到 $(1 + \epsilon)\hat{A}_t$。
 
-相反，当$\hat{A}_t$为负时，表明该行为是不利的，我们希望减小其概率，即期望优化参数 $\theta$ 使得 $r_t(\theta) = \frac{\pi_\theta(a_t | s_t)}{\pi_{\theta_{\text{old}}}(a_t | s_t)}$ 越小越好，但由于有clip的限制，因此其最小不会超过$(1 - \epsilon)\hat{A}_t$。
+相反，当$\hat{A}_t$为负时，表明该行为是不利的，我们希望减小其概率，即期望优化参数 $\theta$ 使得$r_t(\theta) = \frac{\pi_\theta(a_t | s_t)}{\pi_{\theta_{\text{old}}}(a_t | s_t)}$越小越好，但由于有clip的限制，因此其最小不会超过$(1 - \epsilon)\hat{A}_t$。
 
 ---
 
@@ -50,21 +50,21 @@ PPO（近端策略优化）是一种强化学习中常用的策略梯度方法�
 
 #### ⏱️ 方法一：MC（Monte Carlo）/ TD(1)
 用完整的未来收益预估
-$
+$$
 Adv = R_t + γ R_{t+1} + γ^2 R_{t+2} + ... - V(s_t)
-$
+$$
 - ✅ 优点：平均来说更准确（无偏）
 - ❌ 缺点：方差很大（因为未来太多不确定了）
 
 #### ⏱️ 方法二：TD(0)
 只看一步
-$
+$$
 Adv = r_t + γ * V(s_{t+1}) - V(s_t)
-$
+$$
 - ✅ 优点：很稳定（方差小）
 - ❌ 缺点：不准确（有偏）
 
-其中$r_t$表示第$t$步时从环境中得到的及时奖励，由Reward Model给出，表示为：$r_t = \text{Reward}(s_t, a_t)$
+其中$r_t$表示第$t$步时从环境中得到的及时奖励，由Reward Model给出，表示为：$$r_t = \text{Reward}(s_t, a_t)$$
 
 而$V(s_t)$ 是状态 $s_t$ 的价值，表示在状态 $s_t$ 下，期望获得的总回报（reward）。状态价值的计算通常依赖于价值函数估计方法，如 蒙特卡罗方法、时序差分方法（TD），或者通过神经网络近似。
 
@@ -75,13 +75,13 @@ GAE 把多个时间步的 TD 残差（TD Error）按一定权重加起来，既�
 #### 🔧 数学表达：
 定义每一步的 TD 残差为：
 
-$\delta_t = r_t + \gamma V(s_{t+1}) - V(s_t)$
+$$\delta_t = r_t + \gamma V(s_{t+1}) - V(s_t)$$
 
 这是当前时刻的即时奖励加上折扣后的下一个状态的估计价值，减去当前状态的价值。
 
 GAE 把多个 TD 残差按 $(\gamma \lambda)^l$ 加权求和：
 
-$\hat{A}_t^{\text{GAE}(\gamma, \lambda)} = \sum_{l=0}^{\infty} (\gamma \lambda)^l \delta_{t+l}$
+$$\hat{A}_t^{\text{GAE}(\gamma, \lambda)} = \sum_{l=0}^{\infty} (\gamma \lambda)^l \delta_{t+l}$$
  
 其中：
 
