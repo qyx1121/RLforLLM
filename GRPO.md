@@ -2,14 +2,14 @@
 ## 📘 GRPO 目标函数
 
 $$
-\mathcal{J}_{\text{GRPO}}(\theta) = \mathbb{E}_{q \sim P(Q), \{o_i\}_{i=1}^G \sim \pi_{\text{old}}(O|q)} \left[ 
-\frac{1}{G} \sum_{i=1}^{G} \frac{1}{|o_i|} \sum_{t=1}^{|o_i|} 
+\mathcal{J}\_{\text{GRPO}}(\theta) = \mathbb{E}\_{q \sim P(Q), \{o\_i\}\_{i=1}^G \sim \pi\_{\text{old}}(O|q)} \left[ 
+\frac{1}{G} \sum\_{i=1}^{G} \frac{1}{|o\_i|} \sum\_{t=1}^{|o\_i|} 
 \left\{ 
 \min \left[
-\frac{\pi_\theta(o_{i,t}|q, o_{i,<t})}{\pi_{\text{old}}(o_{i,t}|q, o_{i,<t})}, 1 - \epsilon, 1 + \epsilon 
-\right] \hat{A}_{i,t} 
+\frac{\pi\_\theta(o\_{i,t}|q, o\_{i,<t})}{\pi\_{\text{old}}(o\_{i,t}|q, o\_{i,<t})}, 1 - \epsilon, 1 + \epsilon 
+\right] \hat{A}\_{i,t} 
 \right\} 
-- \beta \mathbb{D}_{\text{KL}} \left[ \pi_\theta \| \pi_{\text{ref}} \right] 
+- \beta \mathbb{D}\_{\text{KL}} \left[ \pi\_\theta \| \pi\_{\text{ref}} \right] 
 \right]
 $$
 
@@ -21,18 +21,18 @@ $$
 
 
 <div align="center">
-  <img src="imgs/grpo_vs_ppo.png" alt="替代文本">
+  <img src="imgs/grpo\_vs\_ppo.png" alt="替代文本">
 </div>
 
 ## GRPO 算法流程
 
 <div align="center">
-  <img src="imgs/grop_algorithm.png" alt="替代文本">
+  <img src="imgs/grop\_algorithm.png" alt="替代文本">
 </div>
 
 GRPO针对每个问题，从policy model中采样$G$个输出结果，并分别计算这$G$个结果的reward值（比如答案是否正确，格式是否正确，R1所使用的RM），然后通过下列公式计算第$t$步第$i$个输出的A值：
-$$\hat{A}_{i,t} = \frac{r_i - \text{mean}(\mathbf{r})}{\text{std}(\mathbf{r})}$$
-然后用于最大化GRPO的目标函数$\mathcal{J}_{\text{GRPO}}(\theta)$
+$$\hat{A}\_{i,t} = \frac{r\_i - \text{mean}(\mathbf{r})}{\text{std}(\mathbf{r})}$$
+然后用于最大化GRPO的目标函数$\mathcal{J}\_{\text{GRPO}}(\theta)$
 
 ## DeepSeek-R1的一些失败尝试
 
