@@ -1,4 +1,7 @@
 # 群体相对策略优化（Group Relative Policy Optimization, GRPO）
+<!-- MathJax配置（可选，提升公式渲染效果） -->
+<script type="text/javascript" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
 ## 📘 GRPO 目标函数
 
 $$\mathcal{J}\_{\text{GRPO}}(\theta) = \mathbb{E}\_{q \sim P(Q), \{o\_i\}\_{i=1}^G \sim \pi\_{\text{old}}(O|q)} \left[ 
