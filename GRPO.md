@@ -10,7 +10,7 @@ $$\mathcal{J}\_{\text{GRPO}}(\theta) = \mathbb{E}\_{q \sim P(Q), \{o\_i\}\_{i=1}
 \right\} - \beta \mathbb{D}\_{\text{KL}} \left[ \pi\_\theta \| \pi\_{\text{ref}} \right] 
 \right]$$
 
-其中，$\epsilon$ 和 $\beta$ 是超参数， $A^{i,j}$​ 是基于组内奖励的相对优势估计。
+其中， $\epsilon$ 和 $\beta$ 是超参数， $A^{i,j}$​ 是基于组内奖励的相对优势估计。
 
 **PPO的值函数通常是一个与策略模型大小相当的模型，这带来了显著的内存和计算负担**。
 
