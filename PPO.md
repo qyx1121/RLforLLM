@@ -8,9 +8,8 @@ PPO（近端策略优化）是一种强化学习中常用的策略梯度方法�
 
 1. **剪切目标函数（Clipped Objective）**：
    PPO 不直接最大化期望回报，而是通过引入剪切机制来限制策略更新幅度：
-   $$
-   L^{CLIP}(\theta) = \mathbb{E}\_t \left[ \min\left( r\_t(\theta)\hat{A}\_t, \text{clip}(r\_t(\theta), 1 - \epsilon, 1 + \epsilon)\hat{A}\_t \right) \right]
-   $$
+   
+   $$L^{CLIP}(\theta) = \mathbb{E}\_t \left[ \min\left( r\_t(\theta)\hat{A}\_t, \text{clip}(r\_t(\theta), 1 - \epsilon, 1 + \epsilon)\hat{A}\_t \right) \right]$$
    其中：
    - $r\_t(\theta) = \frac{\pi\_\theta(a\_t | s\_t)}{\pi\_{\theta\_{\text{old}}}(a\_t | s\_t)}$ 是新旧策略的概率比；
    - $\hat{A}\_t$ 是优势函数（可由 GAE 估算）；
