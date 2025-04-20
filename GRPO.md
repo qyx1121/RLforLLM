@@ -1,7 +1,7 @@
 # 群体相对策略优化（Group Relative Policy Optimization, GRPO）
 ## 📘 GRPO 目标函数
 
-$$
+$
 \mathcal{J}_{\text{GRPO}}(\theta) = \mathbb{E}_{q \sim P(Q), \{o_i\}_{i=1}^G \sim \pi_{\text{old}}(O|q)} \left[ 
 \frac{1}{G} \sum_{i=1}^{G} \frac{1}{|o_i|} \sum_{t=1}^{|o_i|} 
 \left\{ 
@@ -11,7 +11,7 @@ $$
 \right\} 
 - \beta \mathbb{D}_{\text{KL}} \left[ \pi_\theta \| \pi_{\text{ref}} \right] 
 \right]
-$$
+$
 
 其中，$\epsilon$和 $\beta$ 是超参数，$A^{i,j}$​ 是基于组内奖励的相对优势估计。
 
@@ -31,7 +31,7 @@ $$
 </div>
 
 GRPO针对每个问题，从policy model中采样$G$个输出结果，并分别计算这$G$个结果的reward值（比如答案是否正确，格式是否正确，R1所使用的RM），然后通过下列公式计算第$t$步第$i$个输出的A值：
-$$\hat{A}_{i,t} = \frac{r_i - \text{mean}(\mathbf{r})}{\text{std}(\mathbf{r})}$$
+$\hat{A}_{i,t} = \frac{r_i - \text{mean}(\mathbf{r})}{\text{std}(\mathbf{r})}$
 然后用于最大化GRPO的目标函数$\mathcal{J}_{\text{GRPO}}(\theta)$
 
 ## DeepSeek-R1的一些失败尝试
