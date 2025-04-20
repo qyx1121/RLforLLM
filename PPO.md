@@ -8,8 +8,9 @@ PPO（近端策略优化）是一种强化学习中常用的策略梯度方法�
 
 1. **剪切目标函数（Clipped Objective）**：
    PPO 不直接最大化期望回报，而是通过引入剪切机制来限制策略更新幅度：
-   
+
    $$L^{CLIP}(\theta) = \mathbb{E}\_t \left[ \min\left( r\_t(\theta)\hat{A}\_t, \text{clip}(r\_t(\theta), 1 - \epsilon, 1 + \epsilon)\hat{A}\_t \right) \right]$$
+   
    其中：
    - $r\_t(\theta) = \frac{\pi\_\theta(a\_t | s\_t)}{\pi\_{\theta\_{\text{old}}}(a\_t | s\_t)}$ 是新旧策略的概率比；
    - $\hat{A}\_t$ 是优势函数（可由 GAE 估算）；
@@ -27,7 +28,7 @@ PPO（近端策略优化）是一种强化学习中常用的策略梯度方法�
 
 当 $\hat{A}\_t$ 为正时，表示当前行为 $a\_t$ 相对于旧策略是“有利”的，我们希望提高该行为的概率，因此期望优化参数 $\theta$ 使得 $r\_t(\theta) = \frac{\pi\_\theta(a\_t | s\_t)}{\pi\_{\theta\_{\text{old}}}(a\_t | s\_t)}$ 越大越好。但由于引入了剪切（clip）操作，为了防止策略更新过大，$r\_t(\theta)$ 的值被限制在 $[1 - \epsilon, 1 + \epsilon]$ 之间，因此实际目标最多只会增加到 $(1 + \epsilon)\hat{A}\_t$。
 
-相反，当 $\hat{A}\_t$ 为负时，表明该行为是不利的，我们希望减小其概率，即期望优化参数 $\theta$ 使得$r\_t(\theta) = \frac{\pi\_\theta(a\_t | s\_t)}{\pi\_{\theta\_{\text{old}}}(a\_t | s\_t)}$ 越小越好，但由于有clip的限制，因此其最小不会超过 $(1 - \epsilon)\hat{A}\_t$ 。
+相反，当 $\hat{A}\_t$ 为负时，表明该行为是不利的，我们希望减小其概率，即期望优化参数 $\theta$ 使得 $r\_t(\theta) = \frac{\pi\_\theta(a\_t | s\_t)}{\pi\_{\theta\_{\text{old}}}(a\_t | s\_t)}$ 越小越好，但由于有clip的限制，因此其最小不会超过 $(1 - \epsilon)\hat{A}\_t$ 。
 
 ---
 

@@ -12,11 +12,14 @@ DPO 通过以下步骤实现直接优化：
 $$P(y\_w \succ y\_l) = \frac{\exp(R(y\_w))}{\exp(R(y\_w)) + \exp(R(y\_l))}$$
 
 2. **奖励隐式参数化**：将奖励函数$R(y)$ 表示为策略$\pi\_\theta(y|x)$ 的函数，即：
+
    $$R(y) = \beta \log \frac{\pi\_\theta(y|x)}{\pi\_{\text{ref}}(y|x)} + \text{常数}$$
+
    其中 $\pi\_{\text{ref}}$ 是参考策略（如初始模型）， $\beta$ 是温度系数。
 3. **目标函数**：直接最大化偏好数据的对数似然：
 
    $$\mathcal{L}\_{\text{DPO}} = -\mathbb{E}\_{(x,y\_w,y\_l)} \left[ \log \sigma\left( \beta \log \frac{\pi\_\theta(y\_w|x)}{\pi\_{\text{ref}}(y\_w|x)} - \beta \log \frac{\pi\_\theta(y\_l|x)}{\pi\_{\text{ref}}(y\_l|x)} \right) \right]$$
+   
    其中 $\sigma$ 是 Sigmoid 函数。
 
 ### 1.3 关键特点

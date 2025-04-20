@@ -7,8 +7,7 @@ $$\mathcal{J}\_{\text{GRPO}}(\theta) = \mathbb{E}\_{q \sim P(Q), \{o\_i\}\_{i=1}
 \min \left[
 \frac{\pi\_\theta(o\_{i,t}|q, o\_{i,<t})}{\pi\_{\text{old}}(o\_{i,t}|q, o\_{i,<t})}, 1 - \epsilon, 1 + \epsilon 
 \right] \hat{A}\_{i,t} 
-\right\} 
-- \beta \mathbb{D}\_{\text{KL}} \left[ \pi\_\theta \| \pi\_{\text{ref}} \right] 
+\right\} - \beta \mathbb{D}\_{\text{KL}} \left[ \pi\_\theta \| \pi\_{\text{ref}} \right] 
 \right]$$
 
 其中，$\epsilon$ 和 $\beta$ 是超参数， $A^{i,j}$​ 是基于组内奖励的相对优势估计。
@@ -19,13 +18,13 @@ $$\mathcal{J}\_{\text{GRPO}}(\theta) = \mathbb{E}\_{q \sim P(Q), \{o\_i\}\_{i=1}
 
 
 <div align="center">
-  <img src="imgs/grpo\_vs\_ppo.png" alt="替代文本">
+  <img src="imgs/grpo_vs_ppo.png" alt="替代文本">
 </div>
 
 ## GRPO 算法流程
 
 <div align="center">
-  <img src="imgs/grop\_algorithm.png" alt="替代文本">
+  <img src="imgs/grop_algorithm.png" alt="替代文本">
 </div>
 
 GRPO针对每个问题，从policy model中采样$G$个输出结果，并分别计算这$G$个结果的reward值（比如答案是否正确，格式是否正确，R1所使用的RM），然后通过下列公式计算第$t$步第$i$个输出的A值：
