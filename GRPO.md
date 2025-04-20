@@ -1,17 +1,11 @@
 # 群体相对策略优化（Group Relative Policy Optimization, GRPO）
 <!-- MathJax配置（可选，提升公式渲染效果） -->
-<script type="text/javascript" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 ## 📘 GRPO 目标函数
 
-$$\mathcal{J}\_{\text{GRPO}}(\theta) = \mathbb{E}\_{q \sim P(Q), \{o\_i\}\_{i=1}^G \sim \pi\_{\text{old}}(O|q)} \left[ 
-\frac{1}{G} \sum\_{i=1}^{G} \frac{1}{|o\_i|} \sum\_{t=1}^{|o\_i|} 
-\left\{ 
-\min \left[
-\frac{\pi\_\theta(o\_{i,t}|q, o\_{i,<t})}{\pi\_{\text{old}}(o\_{i,t}|q, o\_{i,<t})}, 1 - \epsilon, 1 + \epsilon 
-\right] \hat{A}\_{i,t} 
-\right\} - \beta \mathbb{D}\_{\text{KL}} \left[ \pi\_\theta \| \pi\_{\text{ref}} \right] 
-\right]$$
+<div align="center">
+  <img src="imgs/grpo_eq.png" alt="替代文本">
+</div>
 
 其中， $\epsilon$ 和 $\beta$ 是超参数， $A^{i,j}$​ 是基于组内奖励的相对优势估计。
 
@@ -27,7 +21,7 @@ $$\mathcal{J}\_{\text{GRPO}}(\theta) = \mathbb{E}\_{q \sim P(Q), \{o\_i\}\_{i=1}
 ## GRPO 算法流程
 
 <div align="center">
-  <img src="imgs/grop_algorithm.png" alt="替代文本">
+  <img src="imgs/grpo_algorithm.png" alt="替代文本">
 </div>
 
 GRPO针对每个问题，从policy model中采样$G$个输出结果，并分别计算这$G$个结果的reward值（比如答案是否正确，格式是否正确，R1所使用的RM），然后通过下列公式计算第$t$步第$i$个输出的A值：
