@@ -26,9 +26,9 @@ PPO（近端策略优化）是一种强化学习中常用的策略梯度方法�
 
 **具体的优化原理：**
 
-当 $\hat{A}_t$ 为正时，表示当前行为 $a_t$ 相对于旧策略是“有利”的，我们希望提高该行为的概率，因此期望优化参数 $\theta$ 使得$r_t(\theta) = \frac{\pi_\theta(a_t | s_t)}{\pi_{\theta_{\text{old}}}(a_t | s_t)}$越大越好。但由于引入了剪切（clip）操作，为了防止策略更新过大，$r_t(\theta)$ 的值被限制在 $[1 - \epsilon, 1 + \epsilon]$ 之间，因此实际目标最多只会增加到 $(1 + \epsilon)\hat{A}_t$。
+当 $\hat{A}_t$ 为正时，表示当前行为 $a_t$ 相对于旧策略是“有利”的，我们希望提高该行为的概率，因此期望优化参数 $\theta$ 使得 $r_t(\theta) = \frac{\pi_\theta(a_t | s_t)}{\pi_{\theta_{\text{old}}}(a_t | s_t)}$ 越大越好。但由于引入了剪切（clip）操作，为了防止策略更新过大，$r_t(\theta)$ 的值被限制在 $[1 - \epsilon, 1 + \epsilon]$ 之间，因此实际目标最多只会增加到 $(1 + \epsilon)\hat{A}_t$。
 
-相反，当$\hat{A}_t$为负时，表明该行为是不利的，我们希望减小其概率，即期望优化参数$\theta$使得$r_t(\theta) = \frac{\pi_\theta(a_t | s_t)}{\pi_{\theta_{\text{old}}}(a_t | s_t)}$越小越好，但由于有clip的限制，因此其最小不会超过$(1 - \epsilon)\hat{A}_t$。
+相反，当$\hat{A}_t$为负时，表明该行为是不利的，我们希望减小其概率，即期望优化参数 $\theta$ 使得 $r_t(\theta) = \frac{\pi_\theta(a_t | s_t)}{\pi_{\theta_{\text{old}}}(a_t | s_t)}$ 越小越好，但由于有clip的限制，因此其最小不会超过$(1 - \epsilon)\hat{A}_t$。
 
 ---
 
