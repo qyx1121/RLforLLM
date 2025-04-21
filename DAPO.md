@@ -7,8 +7,9 @@
 DAPO主要针对GRPO进行优化，首先有两个基本优化：
 1. 移除KL散度约束：DAPO认为thinking模型随着训练步长增加，其分布会与原本的base模型差异较大，因此KL散度约束其实并没有太大必要
 2. Rlue-based RM：为了防止reward model出现reward hacking现象，DAPO直接使用accuracy来计算奖励：
+
 $$ R(\hat{y},y)=\begin{cases}
-1, & \text{is\_equivalent}(\hat{y},y) \\
+1, & \text{IsEquivalent}(\hat{y},y) \\
 -1, & \text{otherwise}
 \end{cases} $$
 
@@ -22,7 +23,7 @@ GRPO、PPO这些算法中clip的 $\epsilon = 0.2$ ，假设 $\pi\_{\theta\_{\tex
 
 ### 2. Dynamic Sampling
 假设一组response都是正确的，即reward都为1，那么根据计算 $A$ 值的公式，则得到 $A=0$ ，则就导致梯度也为0，policy不会得到任何更新。因此为了高效性，筛除了那些response全对或全错的样本，即：
-$$0 < |\{o\_i \mid \text{is\_equivalent}(a,o\_i)\}| < G$$
+$$0 < |\{o\_i \mid \text{IsEquivalent}(a,o\_i)\}| < G$$
 通过实验观测得到，dynamic samling的策略可以提高训练效率（达到相同性能的step减小）
 
 ### 3. Token-Level Policy Gradient Loss
